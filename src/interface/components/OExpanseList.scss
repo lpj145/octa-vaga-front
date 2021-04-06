@@ -1,0 +1,22 @@
+.o-expanse-list {
+  @apply p-4;
+}
+
+.o-expanse-list__item {
+  @apply mb-3;
+  &__title {
+    @apply flex justify-between items-center;
+  }
+  &__icon {
+    @apply transform-gpu;
+    &.open {
+      @apply rotate-180;
+    }
+  }
+  &__content {
+    @apply p-2 hidden h-0 transition duration-150;
+    &.open {
+      @apply block h-auto;
+    }
+  }
+}

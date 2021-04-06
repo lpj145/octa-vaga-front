@@ -1,0 +1,47 @@
+.a-button {
+  background-color: var(--bg-color, #898989);
+  color: var(--text-color, #575757);
+  min-width: 90px;
+  @apply px-3 py-2 rounded focus:outline-none inline-flex justify-center items-center;
+  &--icon {
+    min-width: auto;
+    width: auto;
+  }
+  &:focus,
+  &:hover {
+    filter: brightness(0.98);
+  }
+  &--loading,
+  &--disabled {
+    opacity: 0.8;
+    pointer-events: none;
+  }
+  &--text {
+    background: transparent !important;
+    border: 0 !important;
+  }
+  &--pulse {
+    @apply animate-pulse;
+  }
+  &--accent {
+    background-color: var(--bg-color, #e7e7e7);
+    color: var(--text-color, #575757);
+  }
+  &--default {
+    background-color: var(--bg-color, #e7e7e7);
+    color: var(--text-color, #575757);
+  }
+  &--primary {
+    background-color: var(--bg-color, #e7e7e7);
+    color: var(--text-color, #575757);
+  }
+  &--secondary {
+    background-color: var(--bg-color, #e7e7e7);
+    color: var(--text-color, #575757);
+  }
+  &--outlined {
+    background-color: transparent;
+    color: var(--bg-color, #575757);
+    border: var(--border, 1px solid var(--bg-color, #e7e7e7))
+  }
+}

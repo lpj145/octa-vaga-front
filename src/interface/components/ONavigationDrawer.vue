@@ -5,6 +5,7 @@ import './ONavigationDrawer.scss'
 
 export interface ONavigationDrawerProps {
   width: number
+  el: string
 }
 
 export default defineComponent({
@@ -13,6 +14,10 @@ export default defineComponent({
     width: {
       type: Number,
       default: 260
+    },
+    el: {
+      type: String,
+      default: 'nav'
     }
   },
   setup(props: ONavigationDrawerProps) {
