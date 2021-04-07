@@ -24,7 +24,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="inline-block cursor-move" draggable="true" @dragenter="onDragEnter">
+  <div class="inline-block cursor-move" draggable="true" @touchstart="onDragEnter" @dragenter="onDragEnter">
     <slot ref="refer" />
   </div>
 </template>

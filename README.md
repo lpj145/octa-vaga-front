@@ -9,6 +9,10 @@ npm i # yarn
 npm run dev # yarn dev
 ````
 
+### Limitações
+Não funciona em telas touch :( eu preciso de mais tempo para fazer a adaptação aos eventos, no entanto poderia ter utilizado uma biblioteca como o [interactjs](https://interactjs.io/)
+no entanto isso não mostraria habilidades em fazer os calculos matematicos necessários para se manipular o DOM, além do que criaria um tremendo shortcut que não mostraria nada sobre mim.
+
 A ideia foi não deixar a estrutura muita complexa, mostrar que mesmo apenas funcional, bastante coisas no vue 3 mudaram
 para melhor (e muiito) como uma imagem vale mais que mil palavras eu fiz uma pra representar de maneira simplória o funcionamento.
 
