@@ -2,6 +2,13 @@
 
 Desenvolvido com [VueJS 3](https://v3.vuejs.org/) + [Typescript](https://www.typescriptlang.org/) + [Tailwind](https://tailwindcss.com/) + [Vite 2](https://vitejs.dev/)
 
+### Instalação e preview
+````bash
+git clone https://github.com/lpj145/octa-vaga-front.git
+npm i # yarn
+npm run dev # yarn dev
+````
+
 A ideia foi não deixar a estrutura muita complexa, mostrar que mesmo apenas funcional, bastante coisas no vue 3 mudaram
 para melhor (e muiito) como uma imagem vale mais que mil palavras eu fiz uma pra representar de maneira simplória o funcionamento.
 
