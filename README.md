@@ -1,39 +1,41 @@
-# Teste para candidatos à vaga de desenvolvedor Front-End
+### Octadesk frontend test
 
-	Nesta etapa, você precisa desenvolver uma toolbox de componentes com base na imagem disponível e requisitos descritos.
+Desenvolvido com [VueJS 3](https://v3.vuejs.org/) + [Typescript](https://www.typescriptlang.org/) + [Tailwind](https://tailwindcss.com/) + [Vite 2](https://vitejs.dev/)
 
-## Cenário:
-	
-	O octadesk quer investir em um novo produto que possui uma demanda específica.
-	Durante a design sprint deste produto surgiu uma hipótese que precisa ser validada. 
-	Esta hipótese depende de um editor de html drag'n drop para que o usuário possa customizar sua página corporativa.
-	Nossa analista de UX criou um protótipo simples e precisamos validar a experiência do usuário proposta.
-	Com base no protótipo e nas funcionalidades mandatórias abaixo descritas, devemos criar um protótipo mais fiel e, 
-	principalmente, funcional.
+A ideia foi não deixar a estrutura muita complexa, mostrar que mesmo apenas funcional, bastante coisas no vue 3 mudaram
+para melhor (e muiito) como uma imagem vale mais que mil palavras eu fiz uma pra representar de maneira simplória o funcionamento.
 
-	Requisitos:
-	- como usuário, eu possuo uma toolbox para poder arrastar e soltar componentes desta toolbox na área de design
-	- como usuário, eu posso incluir e excluir tantos componentes quanto eu julgar necessário
-	- como usuário, eu posso customizar estes componentes visualmente
+![Poc](./poc.png)
 
-## Instruções:
+A ideia nessa solução, foi ser bem especifico com vários componentes fazendo coisas bem pontuais, então lendo o nome deles
+já é bem sugestivo.
 
-	1. Para iniciar o teste, faça um fork deste repositório;
-	2. Crie um branch com o seu nome;
-	3. Implemente os arquivos desenvolvidos;
-	3. Após terminar, submeta um pull request e aguarde seu feedback.
+``AppDesign`` - container de todo o resto, ele quem possuí o control de estados e uma interação entre quaisquer
+que sejam nossos componentes filhos.
 
-	Observação: Se você apenas clonar o repositório não vai conseguir fazer push e depois vai ser mais complicado fazer o pull request.
+``ToolboxNavigation`` - Um navegador que implementar alguns outros componentes para arrastar e soltar, recebe por injeção
+uma função para o drag, onde quem controla os estados e componente a partir dai é o AppDesign.
 
-## Considerações: 
-- Utilizar Vue como framework javascript;
-- Utilizar features do ES6+, por exemplo, async/await, object destructuring, map/spread operators;
-- Possuir um layout responsivo;
-- Documentação descrevendo a metodologia utilizada;
+``FrameDropzone`` - Um lugar "box" onde soltamos componentes dentro dela, podemos ter esse mesmo component na navegação
+lateral e não teríamos problemas nenhum, outros dentro dele mesmo, e controlar cada uma seu mundo muito espeficiamente,
+ele possui um registrador interno, lembrando um pouco do ASM rsrsrs, onde se aloca o componente passado, coordenadas dele,
+e um id auto gerado não iterável para melhoria de desempenho.
 
-## Diferenciais:
-- Utilizar vuex;
-- Utilizar typescript;
-- Utilizar testes automatizados;
-- Utilizar metodologias e boas práticas de código;
-- Publicar a aplicação em uma url pública;
+O resto dos componentes são auto identificáveis, onde temos algumas separações de responsabilidades. Cada componente
+no seu mundo sabe muito bem o que precisa fazer, os tipos **TS** estão cruzados de forma proposital, para deixar claro
+no que realmente estamos mexendo, com a ajuda da IDE ficou molesinha mexer.
+
+Essa abordagem além de diminuir a complexidade, facilita e gera desempenho.
+
+Para nomear parágrafos e botões fiz uma diretiva ``EditableContent`` onde parecido com o SO dois clicks lhe da a possibilidade
+de renomear o texto encontrando ali, no entanto é necessário fazer um esforço para fazer o cursor funcionar direito, então é necessário
+realizar três clicks no momento.
+
+### Arquitetura do código
+Separei o código naquilo que dentro do problema proposto, considerei **interface** (nosso) - **app** (aquilo que atende as necessidades do cliente),
+
+Temos uns helpers marotos para nos ajudar em alguns cálculos também que se dividem nas duas frentes interface e app.
+
+### Testes
+Como meu tempo está bem corrido não consegui implementar testes(desculpas ruins essa), mas é porque realmente ta, o Jest resolveria fácil isso
+até porque como estamos falando de camadas "domavéis" na aplicação e as facilidades que a V3 trouxe, testar isso não seria algo complexo.
