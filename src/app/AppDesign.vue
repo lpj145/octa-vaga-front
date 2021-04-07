@@ -1,17 +1,17 @@
 <script lang="ts">
-import { defineComponent, provide, ref, Component } from 'vue'
+import {defineComponent, provide, ref, Component, Slot} from 'vue'
 import {Coords, mouseOffsetToCoords} from '../helpers/coords'
 
-export type OnDropEventFn = (components: Component[], contextCoords: Coords, event?: DragEvent) => void
+export type OnDraggableFn = (components: Component[] | Slot, contextCoords: Coords, event?: DragEvent) => void
 
 export default defineComponent({
   name: 'AppDesign',
   setup() {
     const collapsedMenu = ref(false)
     const draggingComponent = ref<Component[] | null>(null)
-    const onDropEvents: OnDropEventFn[] = []
-    const onDragEvents: OnDropEventFn[] = []
-    let clickCoords: Coords | null = null
+    const onDropEvents: OnDraggableFn[] = []
+    const onDragEvents: OnDraggableFn[] = []
+    let clickCoords: Coords = { y: 0, x: 0 }
 
     provide('collapse', () => {
       collapsedMenu.value = !collapsedMenu.value
@@ -25,15 +25,15 @@ export default defineComponent({
       onDragEvents.forEach(fn => {
         if (draggingComponent.value === null) return
 
-        fn(draggingComponent.value)
+        fn(draggingComponent.value, { x: 0, y: 0 })
       })
     })
 
-    provide('addDropEvent', (fn: OnDropEventFn) => {
+    provide('addDropEvent', (fn: OnDraggableFn) => {
       onDropEvents.push(fn)
     })
 
-    provide('addDragEvent', (fn: OnDropEventFn) => {
+    provide('addDragEvent', (fn: OnDraggableFn) => {
       onDragEvents.push(fn)
     })
 

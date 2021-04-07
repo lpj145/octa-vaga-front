@@ -21,6 +21,7 @@ import { computed, defineComponent, inject } from 'vue'
 
 import './OExpanseList.scss'
 import { randomId } from '../helpers'
+import {OExpanseIsOpenFn, OExpanseOpenFn} from './OExpanseList.vue'
 
 interface OExpanseListItemProps {
   label: string
@@ -43,8 +44,10 @@ export default defineComponent({
     }
   },
   setup(props: OExpanseListItemProps, { emit }) {
-    const isOpened = inject('isOpened', () => {})
-    const openItem = inject('openItem', () => {})
+    const isOpened = inject<OExpanseIsOpenFn>('isOpened', item => {
+      throw Error(`Cannot verify if ${item} is open.`)
+    })
+    const openItem = inject<OExpanseOpenFn>('openItem', () => {})
 
     function onClick() {
       emit('open', !props.open)

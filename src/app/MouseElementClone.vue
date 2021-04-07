@@ -1,26 +1,30 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
+import {OnDraggableFn} from './AppDesign.vue'
 
 export default defineComponent({
   name: 'MouseElementClone',
   setup(props, { slots }) {
-    if (slots.default === undefined) {
-      throw Error('[MouseElementClone]: can\'t clone nothing, please set default slot element.')
-    }
-
-    const onDrag = inject('onDrag', () => {
+    const onDrag = inject<OnDraggableFn>('onDrag', () => {
       throw Error('Need \'onDrag\' injected function by AppDesign component.')
     })
 
+    function onDragEnter(e: DragEvent) {
+      if (slots.default === undefined) {
+        throw Error('[MouseElementClone]: can\'t clone nothing, please set default slot element.')
+      }
+      onDrag(slots.default, e)
+    }
+
     return {
-      onDrag,
+      onDragEnter
     }
   }
 })
 </script>
 
 <template>
-  <div class="inline-block cursor-move" draggable="true" @dragenter="(e) => onDrag(e, $slots.default)">
+  <div class="inline-block cursor-move" draggable="true" @dragenter="onDragEnter">
     <slot ref="refer" />
   </div>
 </template>

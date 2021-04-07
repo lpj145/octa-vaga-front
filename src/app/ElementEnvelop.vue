@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { isBetweenNumbers } from '/src/helpers/math'
+import { isBetweenNumbers } from '../helpers/math'
 
 interface ElementEnvelopProps {
   top: number

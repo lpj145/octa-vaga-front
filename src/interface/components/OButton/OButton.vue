@@ -25,7 +25,7 @@ export default defineComponent({
     color: {
       type: String as PropType<ButtonStyle>,
       default: 'default',
-      validator: (v) => ['default', 'primary', 'secondary', 'accent'].includes(v)
+      validator: (v: string) => ['default', 'primary', 'secondary', 'accent'].includes(v)
     },
     text: Boolean,
     pulse: Boolean,

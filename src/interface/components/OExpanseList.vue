@@ -4,17 +4,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref, provide } from 'vue'
 
 import './OExpanseList.scss'
 
+export type OExpanseIsOpenFn = (item: string) => boolean
+export type OExpanseOpenFn = (item: string) => void
+
 export default defineComponent({
   name: 'OExpanseList',
   setup () {
-    const openedItem = ref(null)
+    const openedItem = ref<string | null>(null)
 
-    function openItem(item) {
+    function openItem(item: string) {
       if (item === openedItem.value) {
         openedItem.value = null
         return
@@ -22,12 +25,12 @@ export default defineComponent({
       openedItem.value = item
     }
 
-    function isOpenedItem(item) {
+    function isOpenedItem(item: string) {
       return item === openedItem.value
     }
 
-    provide('openItem', openItem)
-    provide('isOpened', isOpenedItem)
+    provide<OExpanseOpenFn>('openItem', openItem)
+    provide<OExpanseIsOpenFn>('isOpened', isOpenedItem)
 
     return {}
   }

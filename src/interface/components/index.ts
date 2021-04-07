@@ -10,7 +10,6 @@ type ComponentExport = { [x: string]: () => Promise<any> }
 const components: ComponentExport = {
   'o-box': () => import('./OBox.vue'),
   'o-button': () => import('./OButton/OButton.vue'),
-  'o-draggable': () => import('./ODraggable.vue'),
   'o-expanse-list': () => import('./OExpanseList.vue'),
   'o-expanse-list-item': () => import('./OExpanseListItem.vue'),
   'o-icon': () => import('./OIcon/OIcon'),
