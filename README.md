@@ -1,27 +1,41 @@
-# Vue 3 + Typescript + Vite
+### Octadesk frontend test
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+Desenvolvido com [VueJS 3](https://v3.vuejs.org/) + [Typescript](https://www.typescriptlang.org/) + [Tailwind](https://tailwindcss.com/) + [Vite 2](https://vitejs.dev/)
 
-## Recommended IDE Setup
+A ideia foi não deixar a estrutura muita complexa, mostrar que mesmo apenas funcional, bastante coisas no vue 3 mudaram
+para melhor (e muiito) como uma imagem vale mais que mil palavras eu fiz uma pra representar de maneira simplória o funcionamento.
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+![Poc](./poc.png)
 
-### If Using `<script setup>`
+A ideia nessa solução, foi ser bem especifico com vários componentes fazendo coisas bem pontuais, então lendo o nome deles
+já é bem sugestivo.
 
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
+``AppDesign`` - container de todo o resto, ele quem possuí o control de estados e uma interação entre quaisquer
+que sejam nossos componentes filhos.
 
-## Type Support For `.vue` Imports in TS
+``ToolboxNavigation`` - Um navegador que implementar alguns outros componentes para arrastar e soltar, recebe por injeção
+uma função para o drag, onde quem controla os estados e componente a partir dai é o AppDesign.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
+``FrameDropzone`` - Um lugar "box" onde soltamos componentes dentro dela, podemos ter esse mesmo component na navegação
+lateral e não teríamos problemas nenhum, outros dentro dele mesmo, e controlar cada uma seu mundo muito espeficiamente,
+ele possui um registrador interno, lembrando um pouco do ASM rsrsrs, onde se aloca o componente passado, coordenadas dele,
+e um id auto gerado não iterável para melhoria de desempenho.
 
-### If Using Volar
+O resto dos componentes são auto identificáveis, onde temos algumas separações de responsabilidades. Cada componente
+no seu mundo sabe muito bem o que precisa fazer, os tipos **TS** estão cruzados de forma proposital, para deixar claro
+no que realmente estamos mexendo, com a ajuda da IDE ficou molesinha mexer.
 
-Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
+Essa abordagem além de diminuir a complexidade, facilita e gera desempenho.
 
-### If Using Vetur
+Para nomear parágrafos e botões fiz uma diretiva ``EditableContent`` onde parecido com o SO dois clicks lhe da a possibilidade
+de renomear o texto encontrando ali, no entanto é necessário fazer um esforço para fazer o cursor funcionar direito, então é necessário
+realizar três clicks no momento.
 
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette
-5. Search and run "Select TypeScript version" -> "Use workspace version"
+### Arquitetura do código
+Separei o código naquilo que dentro do problema proposto, considerei **interface** (nosso) - **app** (aquilo que atende as necessidades do cliente),
+
+Temos uns helpers marotos para nos ajudar em alguns cálculos também que se dividem nas duas frentes interface e app.
+
+### Testes
+Como meu tempo está bem corrido não consegui implementar testes(desculpas ruins essa), mas é porque realmente ta, o Jest resolveria fácil isso
+até porque como estamos falando de camadas "domavéis" na aplicação e as facilidades que a V3 trouxe, testar isso não seria algo complexo.

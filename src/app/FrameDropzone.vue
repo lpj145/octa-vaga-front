@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Component, defineComponent, inject, ref } from 'vue'
 import OBox from '../interface/components/OBox.vue'
-import { OnDraggableFn } from './AppDesign.vue'
+import { OnDropFn } from './AppDesign.vue'
 import ElementEnvelop from './ElementEnvelop.vue'
 import { Coords } from '../helpers/coords'
 import ElementContainer from './ElementContainer.vue'
@@ -26,7 +26,7 @@ export default defineComponent({
   setup(props) {
     const zoneRef = ref<HTMLElement | null>(null)
     const localComponents = ref<ComponentSpecs[]>([])
-    const addDropEvent = inject<(fn: OnDraggableFn) => void>('addDropEvent', () => {
+    const addDropEvent = inject<(fn: OnDropFn) => void>('addDropEvent', () => {
       throw Error('Need \'addDropEvent\' injected function by AppDesign component.')
     })
 
@@ -34,7 +34,7 @@ export default defineComponent({
       throw Error('Need \'onDrop\' injected function by AppDesign component.')
     })
 
-    addDropEvent((components, clickCoords: Coords, event?: DragEvent) => {
+    addDropEvent((components: Component, clickCoords: Coords, event?: DragEvent) => {
       if (!event?.offsetY || !event?.offsetX) {
         return
       }
@@ -89,7 +89,6 @@ export default defineComponent({
         >
           <ElementContainer @remove="() => removeComponent(componentSpec)">
             <component
-              v-if="componentSpec.component"
               :is="componentSpec.component"
             />
           </ElementContainer>

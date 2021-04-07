@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import {OnDraggableFn} from './AppDesign.vue'
+import { OnCloneFn } from './AppDesign.vue'
 
 export default defineComponent({
   name: 'MouseElementClone',
   setup(props, { slots }) {
-    const onDrag = inject<OnDraggableFn>('onDrag', () => {
+    const onDrag = inject<OnCloneFn>('onDrag', () => {
       throw Error('Need \'onDrag\' injected function by AppDesign component.')
     })
 

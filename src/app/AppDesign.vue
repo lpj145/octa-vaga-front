@@ -1,17 +1,19 @@
 <script lang="ts">
-import {defineComponent, provide, ref, Component, Slot} from 'vue'
-import {Coords, mouseOffsetToCoords} from '../helpers/coords'
+import { defineComponent, provide, ref, Component, Slot } from 'vue'
+import { Coords, mouseOffsetToCoords } from '../helpers/coords'
 
-export type OnDraggableFn = (components: Component[] | Slot, contextCoords: Coords, event?: DragEvent) => void
+export type OnCloneFn = (components: Component | Slot, event: DragEvent) => void
+export type OnDragFn = (components: Component | Slot, contextCoords?: Coords) => void
+export type OnDropFn = (component: Component | Slot, contextCoords: Coords, event: DragEvent) => void
 
 export default defineComponent({
   name: 'AppDesign',
   setup() {
     const collapsedMenu = ref(false)
-    const draggingComponent = ref<Component[] | null>(null)
-    const onDropEvents: OnDraggableFn[] = []
-    const onDragEvents: OnDraggableFn[] = []
-    let clickCoords: Coords = { y: 0, x: 0 }
+    let draggingComponent: Component | null = null
+    const onDropEvents: OnDropFn[] = []
+    const onDragEvents: OnDragFn[] = []
+    let clickCoords: Coords | null = null
 
     provide('collapse', () => {
       collapsedMenu.value = !collapsedMenu.value
@@ -19,31 +21,31 @@ export default defineComponent({
 
     provide('collapsed', collapsedMenu)
 
-    provide('onDrag', (event: DragEvent, components: Component[]) => {
-      draggingComponent.value = components
+    provide<OnCloneFn>('onDrag', (components: Component | Slot, event: DragEvent) => {
+      draggingComponent = components
       clickCoords = mouseOffsetToCoords(event)
       onDragEvents.forEach(fn => {
-        if (draggingComponent.value === null) return
+        if (draggingComponent === null) return
 
-        fn(draggingComponent.value, { x: 0, y: 0 })
+        fn(draggingComponent, clickCoords || { y: 0, x: 0 })
       })
     })
 
-    provide('addDropEvent', (fn: OnDraggableFn) => {
+    provide('addDropEvent', (fn: OnDropFn) => {
       onDropEvents.push(fn)
     })
 
-    provide('addDragEvent', (fn: OnDraggableFn) => {
+    provide('addDragEvent', (fn: OnDragFn) => {
       onDragEvents.push(fn)
     })
 
     provide('onDrop', (event: DragEvent) => {
       onDropEvents.forEach(fn => {
-        if (draggingComponent.value === null) return
+        if (draggingComponent === null || clickCoords === null) return
 
-        fn(draggingComponent.value, clickCoords, event)
+        fn(draggingComponent, clickCoords, event)
       })
-      draggingComponent.value = null
+      draggingComponent = null
     })
 
     return {}
